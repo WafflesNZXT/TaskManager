@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <title>Task Manager</title>
+</head>
+<body>
+    <h1>Task Manager</h1>
+    
+    <br><br>
+
+    <h2>Welcome to your task manager.</h2>
+    <h3>Made so you never forget your tasks again.</h3>
+
+    <input name="taskname1" type="text" class="textbox" placeholder="Task 1">
+    <input name="task1" type="radio" class="radiobutton">
+
+    <br><br>
+
+    <input name="taskname2" type="text" class="textbox" placeholder="Task 2">
+    <input name="task2" type="radio" class="radiobutton">
+
+    <br><br>
+
+    <input name="taskname3" type="text" class="textbox" placeholder="Task 3">
+    <input name="task3" type="radio" class="radiobutton">
+
+    <br><br>
+
+    <input name="taskname4" type="text" class="textbox" placeholder="Task 4">
+    <input name="task4" type="radio" class="radiobutton">
+
+    <br><br>
+
+    <div id="container">
+        <button id="taskadder" class="addtask">Add Task</button>
+        <br><br>
+    </div>
+
+
+    <button id="resetButton" class="resetButton">Refresh Page to Reset</button>
+
+    <script>
+    let taskCounter = 5; // Initialize the task counter
+
+document.getElementById('taskadder').addEventListener('click', function() {
+  const container = document.getElementById('container');
+
+  // Text Input
+  const inputText = document.createElement('input');
+  inputText.type = 'text';
+  inputText.placeholder = `Task ${taskCounter}`; // Use the current counter value
+  inputText.classList.add('textbox'); // Add a class for easier selection later
+  taskCounter++; // Increment the counter for the next addition
+
+  // Radio Button
+  const inputRadio = document.createElement('input');
+  inputRadio.type = 'radio';
+  inputRadio.classList.add('radiobutton'); // Add the same class
+  const brRadio = document.createElement('br');
+  const brrRadio = document.createElement('br');
+
+  // Append all elements BEFORE the button
+  const addButton = document.getElementById('taskadder');
+  container.insertBefore(inputText, addButton);
+  container.insertBefore(inputRadio, addButton);
+  container.insertBefore(brRadio, addButton);
+  container.insertBefore(brrRadio, addButton);
+});
+
+document.getElementById('resetButton').addEventListener('click', function() {
+  const container = document.getElementById('container');
+  const addButton = document.getElementById('taskadder');
+
+  // Select all dynamically added text inputs and clear their values
+  const addedTextInputs = container.querySelectorAll('.dynamic-task-input[type="text"]');
+  addedTextInputs.forEach(input => {
+    input.value = '';
+  });
+
+  // Select all dynamically added radio buttons and uncheck them
+  const addedRadioButtons = container.querySelectorAll('.dynamic-task-input[type="radio"]');
+  addedRadioButtons.forEach(input => {
+    inputRadio.checked = false;
+  });
+
+  // Remove all child nodes of the container EXCEPT the addButton and its following <br><br>
+  while (container.firstChild && container.firstChild !== addButton) {
+    container.removeChild(container.firstChild);
+  }
+
+  // Ensure the <br><br> after the button is also removed if it exists
+  if (addButton && addButton.nextSibling && addButton.nextSibling.nodeName === 'BR') {
+    container.removeChild(addButton.nextSibling);
+    if (addButton.nextSibling && addButton.nextSibling.nodeName === 'BR') {
+      container.removeChild(addButton.nextSibling);
+    }
+  }
+
+  // Reset the task counter
+  taskCounter = 4;
+});
+    </script>
+
+</body>
+</html>
